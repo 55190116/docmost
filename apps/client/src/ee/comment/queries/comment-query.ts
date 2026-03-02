@@ -48,7 +48,7 @@ export function useResolveCommentMutation() {
             resolvedAt: variables.resolved ? new Date() : null,
             resolvedById: variables.resolved ? "optimistic" : null,
             resolvedBy: variables.resolved
-              ? { id: "optimistic", name: "", avatarUrl: null }
+              ? ({ id: "optimistic", name: "", avatarUrl: null } as IComment["resolvedBy"])
               : null,
           })),
         );

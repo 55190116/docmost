@@ -27,16 +27,13 @@ import { ResizableWrapper } from "../common/resizable-wrapper";
 import classes from "./embed-view.module.css";
 
 const schema = z.object({
-  url: z
-    .string()
-    .trim()
-    .url({ message: i18n.t("Please enter a valid url") }),
+  url: z.url({ message: i18n.t("Please enter a valid url") }).trim(),
 });
 
 export default function EmbedView(props: NodeViewProps) {
   const { t } = useTranslation();
   const { node, selected, updateAttributes, editor } = props;
-  const { src, provider, height: nodeHeight } = node.attrs;
+  const { src, provider, width: nodeWidth, height: nodeHeight } = node.attrs;
 
   const embedUrl = useMemo(() => {
     if (src) {
@@ -53,8 +50,8 @@ export default function EmbedView(props: NodeViewProps) {
   });
 
   const handleResize = useCallback(
-    (newHeight: number) => {
-      updateAttributes({ height: newHeight });
+    (newWidth: number, newHeight: number) => {
+      updateAttributes({ width: newWidth, height: newHeight });
     },
     [updateAttributes],
   );
@@ -85,27 +82,33 @@ export default function EmbedView(props: NodeViewProps) {
   }
 
   return (
-    <NodeViewWrapper data-drag-handle>
+    <NodeViewWrapper data-drag-handle className={classes.embedNodeView}>
       {embedUrl ? (
-        <ResizableWrapper
-          initialHeight={nodeHeight || 480}
-          minHeight={200}
-          maxHeight={1200}
-          onResize={handleResize}
-          isEditable={editor.isEditable}
-          className={clsx(classes.embedWrapper, {
-            "ProseMirror-selectednode": selected,
-          })}
-        >
-          <iframe
-            className={classes.embedIframe}
-            src={sanitizeUrl(embedUrl)}
-            allow="encrypted-media"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-            allowFullScreen
-            frameBorder="0"
-          />
-        </ResizableWrapper>
+        <div className={classes.embedContainer}>
+          <ResizableWrapper
+            initialWidth={nodeWidth || 640}
+            initialHeight={nodeHeight || 480}
+            minWidth={200}
+            maxWidth={1200}
+            minHeight={200}
+            maxHeight={1200}
+            onResize={handleResize}
+            isEditable={editor.isEditable}
+            selected={selected}
+            className={clsx(classes.embedWrapper, {
+              "ProseMirror-selectednode": selected,
+            })}
+          >
+            <iframe
+              className={classes.embedIframe}
+              src={sanitizeUrl(embedUrl)}
+              allow="encrypted-media"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+              allowFullScreen
+              frameBorder="0"
+            />
+          </ResizableWrapper>
+        </div>
       ) : (
         <Popover
           width={300}
