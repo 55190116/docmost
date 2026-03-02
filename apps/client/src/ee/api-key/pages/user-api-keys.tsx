@@ -77,7 +77,7 @@ export default function UserApiKeys() {
           <Text size="sm" mt={4}>
             {t("MCP server URL:")}{" "}
             <Text size="sm" fw={500} span ff="monospace">
-              {`${getAppUrl()}/api/mcp`}
+              {`${getAppUrl()}/mcp`}
             </Text>
           </Text>
         </Alert>

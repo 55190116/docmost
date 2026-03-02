@@ -37,9 +37,9 @@ export default function AiSettings() {
   return (
     <>
       <Helmet>
-        <title>AI - {getAppName()}</title>
+        <title>AI settings - {getAppName()}</title>
       </Helmet>
-      <SettingsTitle title={t("AI")} />
+      <SettingsTitle title={t("AI settings")} />
 
       <Tabs color="dark" value={activeTab} onChange={handleTabChange}>
         <Tabs.List>

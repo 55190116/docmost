@@ -27,7 +27,7 @@ export default function McpSettings() {
   const [checked, setChecked] = useState(workspace?.settings?.ai?.mcp);
   const hasAccess = useIsCloudEE();
 
-  const mcpUrl = `${getAppUrl()}/api/mcp`;
+  const mcpUrl = `${getAppUrl()}/mcp`;
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.checked;
